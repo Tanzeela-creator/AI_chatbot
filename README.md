@@ -1,33 +1,76 @@
-# AI Chatbot
+# 🤖 AI Chatbot
 
-## What I Built
-I built a basic AI chatbot using Python and the Groq API.
-The chatbot accepts a user message, sends it to an AI model, and displays the AI-generated response.
+A web-based AI chatbot developed as an internship project.
 
-## Technologies Used
+The chatbot allows users to communicate with an AI assistant through text and voice input. It also provides optional voice output, conversation history, Markdown responses, error handling, and a responsive web interface.
+
+
+## 🚀 Live Demo
+
+Vercel: https://ai-chatbot-iidd.vercel.app/
+
+## 📂 GitHub Repository
+
+https://github.com/Tanzeela-creator/AI_chatbot
+
+---
+
+## ✨ Features
+
+### Day 1 — Basic AI Chatbot
+
+- User text input
+- AI-generated responses
+- AI API integration
+- Web-based chatbot interface
+
+### Day 2 — Chatbot Development
+
+- Proper API integration
+- Loading state while AI is responding
+- Error handling
+- Input validation
+- Clean and responsive interface
+- Custom system prompt defining the chatbot's role and behavior
+
+### Day 3 — Chatbot Improvements
+
+- Conversation history
+- Clear Chat functionality
+- Improved system prompt
+- Markdown-formatted AI responses
+- Secure Markdown rendering using DOMPurify
+- Better user interface
+- Input validation
+- API error handling
+- Voice input using browser Speech Recognition
+- Optional voice output using browser Speech Synthesis
+- Responsive design for mobile and desktop
+
+---
+
+## 🛠️ Technologies Used
+
+- HTML5
+- CSS3
+- JavaScript
 - Python
 - Groq API
-- python-dotenv
+- `openai/gpt-oss-20b`
+- Vercel
+- Git
+- GitHub
+- Marked.js
+- DOMPurify
+- Web Speech API
 
-## How It Works
-The user enters a message in the terminal.
-The message is sent to the Groq AI model through the API.
-The generated response is then displayed in the terminal.
+---
 
-## API Integration
-The Groq API is integrated using the Groq Python library.
-The API key is stored in a `.env` file instead of being written directly in the code.
+## 🔌 API Integration
 
-## What I Learned
-- How to use an AI API
-- How to send user input to an AI model
-- How to handle API responses
-- How to protect API keys using environment variables
-- Basic GitHub project workflow
+The chatbot uses the Groq API to generate AI responses.
 
-## Future Improvements
-- Conversation history
-- Better error handling
-- Loading indicator
-- Voice input/output
-- Improved user interface
+The frontend sends the conversation history to the backend API endpoint:
+
+```text
+/api
