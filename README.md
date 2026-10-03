@@ -2,8 +2,7 @@
 
 A web-based AI chatbot developed as an internship project.
 
-The chatbot allows users to communicate with an AI assistant through text and voice input. It also provides optional voice output, conversation history, Markdown responses, error handling, and a responsive web interface.
-
+The chatbot allows users to communicate with an AI assistant through text and voice input. It includes conversation history, Markdown responses, error handling, input validation, voice input, optional voice output, and a responsive web interface.
 
 ## 🚀 Live Demo
 
@@ -63,14 +62,3 @@ https://github.com/Tanzeela-creator/AI_chatbot
 - Marked.js
 - DOMPurify
 - Web Speech API
-
----
-
-## 🔌 API Integration
-
-The chatbot uses the Groq API to generate AI responses.
-
-The frontend sends the conversation history to the backend API endpoint:
-
-```text
-/api
