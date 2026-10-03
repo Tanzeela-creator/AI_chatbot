@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 
@@ -11,6 +12,10 @@
     >
 
     <title>AI Chatbot</title>
+
+    <!-- Markdown + Security Libraries -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dompurify@3.2.6/dist/purify.min.js"></script>
 
 
     <style>
@@ -211,6 +216,78 @@
             color: #222;
 
             border-bottom-left-radius: 3px;
+
+        }
+
+
+        /* Markdown styling */
+
+        .bot-message .message h1,
+        .bot-message .message h2,
+        .bot-message .message h3 {
+
+            margin-top: 8px;
+
+            margin-bottom: 8px;
+
+        }
+
+
+        .bot-message .message p {
+
+            margin: 8px 0;
+
+        }
+
+
+        .bot-message .message ul,
+        .bot-message .message ol {
+
+            margin: 8px 0;
+
+            padding-left: 25px;
+
+        }
+
+
+        .bot-message .message li {
+
+            margin: 4px 0;
+
+        }
+
+
+        .bot-message .message code {
+
+            background: #d1d5db;
+
+            padding: 2px 5px;
+
+            border-radius: 4px;
+
+            font-family: monospace;
+
+        }
+
+
+        .bot-message .message pre {
+
+            background: #d1d5db;
+
+            padding: 10px;
+
+            border-radius: 8px;
+
+            overflow-x: auto;
+
+        }
+
+
+        .bot-message .message pre code {
+
+            background: transparent;
+
+            padding: 0;
 
         }
 
@@ -583,11 +660,33 @@
 
 
             const textElement =
-                document.createElement("span");
+                document.createElement("div");
 
 
-            textElement.textContent =
-                message;
+            /*
+             * Render Markdown only for AI responses.
+             *
+             * marked.parse() converts Markdown into HTML.
+             * DOMPurify.sanitize() removes unsafe HTML.
+             *
+             * User messages remain plain text for security.
+             */
+
+            if (type === "bot-message") {
+
+                textElement.innerHTML =
+                    DOMPurify.sanitize(
+                        marked.parse(message)
+                    );
+
+            }
+
+            else {
+
+                textElement.textContent =
+                    message;
+
+            }
 
 
             messageElement.appendChild(
@@ -1085,7 +1184,6 @@
                         "listening"
                     );
 
-
                 };
 
         }
@@ -1165,3 +1263,4 @@
 </body>
 
 </html>
+```
