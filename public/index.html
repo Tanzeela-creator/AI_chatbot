@@ -1,64 +1,110 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>AI Chatbot</title>
 
     <style>
+        * {
+            box-sizing: border-box;
+        }
+
         body {
             font-family: Arial, sans-serif;
-            background: #f4f4f4;
+            background: #f3f4f6;
             margin: 0;
-            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
         .chat-container {
-            width: 90%;
-            max-width: 600px;
-            margin: 50px auto;
+            width: 95%;
+            max-width: 700px;
             background: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 16px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+            overflow: hidden;
         }
 
-        h1 {
+        .header {
+            background: #333;
+            color: white;
+            padding: 20px;
             text-align: center;
         }
 
+        .header h1 {
+            margin: 0 0 5px;
+            font-size: 25px;
+        }
+
+        .header p {
+            margin: 0;
+            font-size: 14px;
+            opacity: 0.8;
+        }
+
         #chat-box {
-            height: 400px;
+            height: 450px;
             overflow-y: auto;
-            border: 1px solid #ddd;
-            padding: 10px;
-            margin-bottom: 15px;
-            border-radius: 5px;
+            padding: 20px;
+            background: #fafafa;
+        }
+
+        .welcome {
+            text-align: center;
+            color: #777;
+            margin-top: 170px;
+        }
+
+        .user-message,
+        .bot-message {
+            margin: 12px 0;
+            display: flex;
         }
 
         .user-message {
-            text-align: right;
-            margin: 10px;
+            justify-content: flex-end;
         }
 
         .bot-message {
-            text-align: left;
-            margin: 10px;
+            justify-content: flex-start;
         }
 
         .message {
-            padding: 10px;
-            border-radius: 8px;
-            display: inline-block;
+            padding: 12px 15px;
+            border-radius: 12px;
             max-width: 80%;
+            line-height: 1.5;
+            word-wrap: break-word;
         }
 
         .user-message .message {
-            background: #dbeafe;
+            background: #333;
+            color: white;
+            border-bottom-right-radius: 3px;
         }
 
         .bot-message .message {
-            background: #eeeeee;
+            background: #e5e7eb;
+            color: #222;
+            border-bottom-left-radius: 3px;
+        }
+
+        .error-message {
+            background: #fee2e2 !important;
+            color: #991b1b !important;
+        }
+
+        .input-section {
+            padding: 15px;
+            border-top: 1px solid #ddd;
+            background: white;
         }
 
         .input-area {
@@ -68,16 +114,23 @@
 
         #message-input {
             flex: 1;
-            padding: 12px;
+            padding: 13px;
             border: 1px solid #ccc;
-            border-radius: 5px;
+            border-radius: 8px;
+            font-size: 15px;
+            outline: none;
+        }
+
+        #message-input:focus {
+            border-color: #555;
         }
 
         button {
-            padding: 12px 20px;
+            padding: 13px 20px;
             border: none;
-            border-radius: 5px;
+            border-radius: 8px;
             cursor: pointer;
+            font-size: 15px;
         }
 
         #send-button {
@@ -88,6 +141,46 @@
         #send-button:hover {
             background: #555;
         }
+
+        #send-button:disabled {
+            background: #999;
+            cursor: not-allowed;
+        }
+
+        .status {
+            text-align: center;
+            font-size: 12px;
+            color: #777;
+            margin-top: 8px;
+        }
+
+        @media (max-width: 600px) {
+
+            body {
+                align-items: flex-start;
+                padding-top: 20px;
+            }
+
+            .chat-container {
+                width: 95%;
+            }
+
+            #chat-box {
+                height: 500px;
+            }
+
+            .message {
+                max-width: 90%;
+            }
+
+            .input-area {
+                gap: 6px;
+            }
+
+            #send-button {
+                padding: 12px 15px;
+            }
+        }
     </style>
 </head>
 
@@ -95,18 +188,41 @@
 
     <div class="chat-container">
 
-        <h1>🤖 AI Chatbot</h1>
+        <div class="header">
+            <h1>🤖 AI Chatbot</h1>
+            <p>Your friendly AI assistant</p>
+        </div>
 
-        <div id="chat-box"></div>
+        <div id="chat-box">
 
-        <div class="input-area">
-            <input
-                type="text"
-                id="message-input"
-                placeholder="Type your message..."
-            >
+            <div class="welcome">
+                <h3>Welcome! 👋</h3>
+                <p>Ask me anything to get started.</p>
+            </div>
 
-            <button id="send-button">Send</button>
+        </div>
+
+        <div class="input-section">
+
+            <div class="input-area">
+
+                <input
+                    type="text"
+                    id="message-input"
+                    placeholder="Type your message..."
+                    autocomplete="off"
+                >
+
+                <button id="send-button">
+                    Send
+                </button>
+
+            </div>
+
+            <div class="status" id="status">
+                Press Enter to send
+            </div>
+
         </div>
 
     </div>
@@ -116,40 +232,91 @@
         const input = document.getElementById("message-input");
         const sendButton = document.getElementById("send-button");
         const chatBox = document.getElementById("chat-box");
+        const status = document.getElementById("status");
+
+        function addMessage(sender, message, type) {
+
+            const messageContainer = document.createElement("div");
+            messageContainer.className = type;
+
+            const messageElement = document.createElement("div");
+            messageElement.className = "message";
+
+            const senderElement = document.createElement("strong");
+            senderElement.textContent = sender + ": ";
+
+            const textElement = document.createElement("span");
+            textElement.textContent = message;
+
+            messageElement.appendChild(senderElement);
+            messageElement.appendChild(textElement);
+
+            messageContainer.appendChild(messageElement);
+            chatBox.appendChild(messageContainer);
+
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
+
+
+        function removeWelcomeMessage() {
+
+            const welcome = document.querySelector(".welcome");
+
+            if (welcome) {
+                welcome.remove();
+            }
+        }
+
 
         async function sendMessage() {
 
             const message = input.value.trim();
 
+            // Input validation
             if (!message) {
+
+                status.textContent = "Please enter a message.";
+
+                input.focus();
+
                 return;
             }
 
-            // Display user's message
-            chatBox.innerHTML += `
-                <div class="user-message">
-                    <div class="message">
-                        <strong>You:</strong> ${message}
-                    </div>
-                </div>
-            `;
+            removeWelcomeMessage();
+
+            // Disable button while waiting
+            sendButton.disabled = true;
+            input.disabled = true;
+
+            status.textContent = "AI is thinking...";
+
+            // Display user message
+            addMessage("You", message, "user-message");
 
             input.value = "";
 
-            // Display loading message
-            chatBox.innerHTML += `
-                <div class="bot-message" id="loading">
-                    <div class="message">
-                        <strong>Chatbot:</strong> Thinking...
-                    </div>
+            // Create loading message
+            const loadingContainer = document.createElement("div");
+
+            loadingContainer.className = "bot-message";
+            loadingContainer.id = "loading";
+
+            loadingContainer.innerHTML = `
+                <div class="message">
+                    <strong>Chatbot: </strong>
+                    Thinking...
                 </div>
             `;
 
+            chatBox.appendChild(loadingContainer);
+
             chatBox.scrollTop = chatBox.scrollHeight;
+
 
             try {
 
                 const response = await fetch("/api", {
+
                     method: "POST",
 
                     headers: {
@@ -159,60 +326,146 @@
                     body: JSON.stringify({
                         message: message
                     })
+
                 });
 
-                const data = await response.json();
 
-                document.getElementById("loading").remove();
+                let data;
 
-                if (data.response) {
-
-                    chatBox.innerHTML += `
-                        <div class="bot-message">
-                            <div class="message">
-                                <strong>Chatbot:</strong> ${data.response}
-                            </div>
-                        </div>
-                    `;
-
-                } else {
-
-                    chatBox.innerHTML += `
-                        <div class="bot-message">
-                            <div class="message">
-                                <strong>Error:</strong> ${data.error}
-                            </div>
-                        </div>
-                    `;
+                try {
+                    data = await response.json();
                 }
 
-            } catch (error) {
+                catch (jsonError) {
 
-                document.getElementById("loading").remove();
+                    throw new Error(
+                        "Invalid response received from server."
+                    );
 
-                chatBox.innerHTML += `
-                    <div class="bot-message">
-                        <div class="message">
-                            <strong>Error:</strong> Something went wrong.
-                        </div>
-                    </div>
-                `;
+                }
+
+
+                // Remove loading message
+                const loading = document.getElementById("loading");
+
+                if (loading) {
+                    loading.remove();
+                }
+
+
+                // Handle API errors
+                if (!response.ok) {
+
+                    addErrorMessage(
+                        data.error || "The server returned an error."
+                    );
+
+                    return;
+                }
+
+
+                // Handle successful response
+                if (data.response) {
+
+                    addMessage(
+                        "Chatbot",
+                        data.response,
+                        "bot-message"
+                    );
+
+                }
+
+                else {
+
+                    addErrorMessage(
+                        "No response received from the AI."
+                    );
+
+                }
+
             }
+
+            catch (error) {
+
+                const loading = document.getElementById("loading");
+
+                if (loading) {
+                    loading.remove();
+                }
+
+                console.error("Chatbot error:", error);
+
+                addErrorMessage(
+                    "Unable to connect to the AI service. Please try again."
+                );
+
+            }
+
+            finally {
+
+                // Re-enable input
+                sendButton.disabled = false;
+                input.disabled = false;
+
+                status.textContent = "Press Enter to send";
+
+                input.focus();
+
+            }
+
+        }
+
+
+        function addErrorMessage(message) {
+
+            const container = document.createElement("div");
+
+            container.className = "bot-message";
+
+            const messageElement = document.createElement("div");
+
+            messageElement.className = "message error-message";
+
+            const sender = document.createElement("strong");
+
+            sender.textContent = "Error: ";
+
+            const text = document.createElement("span");
+
+            text.textContent = message;
+
+            messageElement.appendChild(sender);
+            messageElement.appendChild(text);
+
+            container.appendChild(messageElement);
+
+            chatBox.appendChild(container);
 
             chatBox.scrollTop = chatBox.scrollHeight;
         }
 
-        sendButton.addEventListener("click", sendMessage);
 
-        input.addEventListener("keypress", function(event) {
+        // Send button
+        sendButton.addEventListener(
+            "click",
+            sendMessage
+        );
 
-            if (event.key === "Enter") {
-                sendMessage();
+
+        // Enter key
+        input.addEventListener(
+            "keypress",
+            function(event) {
+
+                if (event.key === "Enter") {
+                    sendMessage();
+                }
+
             }
-
-        });
+        );
 
     </script>
 
 </body>
+
 </html>

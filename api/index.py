@@ -4,30 +4,72 @@ import os
 from groq import Groq
 
 
+SYSTEM_PROMPT = """
+You are a helpful, friendly, and professional AI assistant.
+
+Your role is to:
+- Give clear and accurate answers.
+- Explain technical topics in simple language when needed.
+- Be polite and respectful.
+- If you are unsure about something, clearly say so instead of making up information.
+- Keep responses relevant to the user's question.
+"""
+
+
 class handler(BaseHTTPRequestHandler):
+
+    def send_json(self, status_code, data):
+        self.send_response(status_code)
+        self.send_header("Content-Type", "application/json")
+        self.send_header("Access-Control-Allow-Origin", "*")
+        self.end_headers()
+
+        self.wfile.write(
+            json.dumps(data).encode("utf-8")
+        )
 
     def do_POST(self):
         try:
-            content_length = int(self.headers.get("Content-Length", 0))
+            # Read request body
+            content_length = int(
+                self.headers.get("Content-Length", 0)
+            )
+
             body = self.rfile.read(content_length)
             data = json.loads(body)
 
+            # Get user message
             user_message = data.get("message", "").strip()
 
+            # Validate input
             if not user_message:
-                self.send_response(400)
-                self.send_header("Content-Type", "application/json")
-                self.end_headers()
-                self.wfile.write(
-                    json.dumps({"error": "Message is required"}).encode()
+                self.send_json(
+                    400,
+                    {"error": "Please enter a message."}
                 )
                 return
 
-            client = Groq(api_key=os.getenv("GROQ_API_KEY"))
+            # Check API key
+            api_key = os.getenv("GROQ_API_KEY")
 
+            if not api_key:
+                self.send_json(
+                    500,
+                    {"error": "Groq API key is not configured."}
+                )
+                return
+
+            # Create Groq client
+            client = Groq(api_key=api_key)
+
+            # Send request to Groq
             response = client.chat.completions.create(
                 model="openai/gpt-oss-20b",
                 messages=[
+                    {
+                        "role": "system",
+                        "content": SYSTEM_PROMPT
+                    },
                     {
                         "role": "user",
                         "content": user_message
@@ -35,22 +77,25 @@ class handler(BaseHTTPRequestHandler):
                 ]
             )
 
+            # Get AI response
             bot_response = response.choices[0].message.content
 
-            self.send_response(200)
-            self.send_header("Content-Type", "application/json")
-            self.send_header("Access-Control-Allow-Origin", "*")
-            self.end_headers()
+            # Send successful response
+            self.send_json(
+                200,
+                {"response": bot_response}
+            )
 
-            self.wfile.write(
-                json.dumps({"response": bot_response}).encode()
+        except json.JSONDecodeError:
+            self.send_json(
+                400,
+                {"error": "Invalid request format."}
             )
 
         except Exception as e:
-            self.send_response(500)
-            self.send_header("Content-Type", "application/json")
-            self.end_headers()
+            print("Server error:", str(e))
 
-            self.wfile.write(
-                json.dumps({"error": str(e)}).encode()
+            self.send_json(
+                500,
+                {"error": "Something went wrong while processing your request."}
             )
