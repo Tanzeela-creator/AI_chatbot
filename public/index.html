@@ -17,13 +17,11 @@
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/dompurify@3.2.6/dist/purify.min.js"></script>
 
-
     <style>
 
         * {
             box-sizing: border-box;
         }
-
 
         body {
 
@@ -43,7 +41,6 @@
 
         }
 
-
         .chat-container {
 
             width: 95%;
@@ -61,7 +58,6 @@
 
         }
 
-
         .header {
 
             background: #333;
@@ -73,7 +69,6 @@
             text-align: center;
 
         }
-
 
         .header-top {
 
@@ -87,7 +82,6 @@
 
         }
 
-
         .header h1 {
 
             margin: 0;
@@ -95,7 +89,6 @@
             font-size: 25px;
 
         }
-
 
         .header p {
 
@@ -106,7 +99,6 @@
             opacity: 0.8;
 
         }
-
 
         #clear-button {
 
@@ -120,13 +112,11 @@
 
         }
 
-
         #clear-button:hover {
 
             background: #eeeeee;
 
         }
-
 
         #chat-box {
 
@@ -140,7 +130,6 @@
 
         }
 
-
         .welcome {
 
             text-align: center;
@@ -151,13 +140,11 @@
 
         }
 
-
         .welcome h3 {
 
             margin-bottom: 8px;
 
         }
-
 
         .user-message,
         .bot-message {
@@ -168,20 +155,17 @@
 
         }
 
-
         .user-message {
 
             justify-content: flex-end;
 
         }
 
-
         .bot-message {
 
             justify-content: flex-start;
 
         }
-
 
         .message {
 
@@ -197,7 +181,6 @@
 
         }
 
-
         .user-message .message {
 
             background: #333;
@@ -208,7 +191,6 @@
 
         }
 
-
         .bot-message .message {
 
             background: #e5e7eb;
@@ -218,7 +200,6 @@
             border-bottom-left-radius: 3px;
 
         }
-
 
         /* Markdown styling */
 
@@ -232,13 +213,11 @@
 
         }
 
-
         .bot-message .message p {
 
             margin: 8px 0;
 
         }
-
 
         .bot-message .message ul,
         .bot-message .message ol {
@@ -249,13 +228,11 @@
 
         }
 
-
         .bot-message .message li {
 
             margin: 4px 0;
 
         }
-
 
         .bot-message .message code {
 
@@ -269,7 +246,6 @@
 
         }
 
-
         .bot-message .message pre {
 
             background: #d1d5db;
@@ -282,7 +258,6 @@
 
         }
 
-
         .bot-message .message pre code {
 
             background: transparent;
@@ -290,7 +265,6 @@
             padding: 0;
 
         }
-
 
         .error-message {
 
@@ -300,13 +274,11 @@
 
         }
 
-
         .loading-message {
 
             opacity: 0.7;
 
         }
-
 
         .input-section {
 
@@ -318,7 +290,6 @@
 
         }
 
-
         .input-area {
 
             display: flex;
@@ -326,7 +297,6 @@
             gap: 8px;
 
         }
-
 
         #message-input {
 
@@ -344,13 +314,11 @@
 
         }
 
-
         #message-input:focus {
 
             border-color: #555;
 
         }
-
 
         button {
 
@@ -366,7 +334,6 @@
 
         }
 
-
         #voice-button {
 
             background: #eeeeee;
@@ -375,13 +342,11 @@
 
         }
 
-
         #voice-button:hover {
 
             background: #dddddd;
 
         }
-
 
         #voice-button.listening {
 
@@ -391,7 +356,6 @@
 
         }
 
-
         #send-button {
 
             background: #333;
@@ -400,13 +364,11 @@
 
         }
 
-
         #send-button:hover {
 
             background: #555;
 
         }
-
 
         #send-button:disabled,
         #voice-button:disabled {
@@ -416,7 +378,6 @@
             cursor: not-allowed;
 
         }
-
 
         .status {
 
@@ -430,7 +391,6 @@
 
         }
 
-
         @media (max-width: 600px) {
 
             body {
@@ -441,13 +401,11 @@
 
             }
 
-
             .chat-container {
 
                 width: 95%;
 
             }
-
 
             #chat-box {
 
@@ -455,13 +413,11 @@
 
             }
 
-
             .message {
 
                 max-width: 90%;
 
             }
-
 
             .header-top {
 
@@ -469,13 +425,11 @@
 
             }
 
-
             .input-area {
 
                 flex-wrap: wrap;
 
             }
-
 
             #message-input {
 
@@ -484,7 +438,6 @@
                 flex-basis: 100%;
 
             }
-
 
             #voice-button,
             #send-button {
@@ -499,12 +452,9 @@
 
 </head>
 
-
 <body>
 
-
     <div class="chat-container">
-
 
         <div class="header">
 
@@ -524,7 +474,6 @@
 
         </div>
 
-
         <div id="chat-box">
 
             <div class="welcome">
@@ -541,12 +490,9 @@
 
         </div>
 
-
         <div class="input-section">
 
-
             <div class="input-area">
-
 
                 <input
                     type="text"
@@ -555,7 +501,6 @@
                     autocomplete="off"
                 >
 
-
                 <button
                     id="voice-button"
                     title="Voice input"
@@ -563,14 +508,11 @@
                     🎤
                 </button>
 
-
                 <button id="send-button">
                     Send
                 </button>
 
-
             </div>
-
 
             <div
                 class="status"
@@ -579,55 +521,44 @@
                 Press Enter to send
             </div>
 
-
         </div>
-
 
     </div>
 
-
     <script>
-
 
         const input =
             document.getElementById(
                 "message-input"
             );
 
-
         const sendButton =
             document.getElementById(
                 "send-button"
             );
-
 
         const voiceButton =
             document.getElementById(
                 "voice-button"
             );
 
-
         const clearButton =
             document.getElementById(
                 "clear-button"
             );
-
 
         const chatBox =
             document.getElementById(
                 "chat-box"
             );
 
-
         const status =
             document.getElementById(
                 "status"
             );
 
-
         // Store conversation history
         let conversationHistory = [];
-
 
         function addMessage(
             sender,
@@ -638,30 +569,23 @@
             const messageContainer =
                 document.createElement("div");
 
-
             messageContainer.className =
                 type;
-
 
             const messageElement =
                 document.createElement("div");
 
-
             messageElement.className =
                 "message";
-
 
             const senderElement =
                 document.createElement("strong");
 
-
             senderElement.textContent =
                 sender + ": ";
 
-
             const textElement =
                 document.createElement("div");
-
 
             /*
              * Render Markdown only for AI responses.
@@ -688,92 +612,73 @@
 
             }
 
-
             messageElement.appendChild(
                 senderElement
             );
-
 
             messageElement.appendChild(
                 textElement
             );
 
-
             messageContainer.appendChild(
                 messageElement
             );
-
 
             chatBox.appendChild(
                 messageContainer
             );
 
-
             chatBox.scrollTop =
                 chatBox.scrollHeight;
 
         }
-
 
         function addErrorMessage(message) {
 
             const container =
                 document.createElement("div");
 
-
             container.className =
                 "bot-message";
-
 
             const messageElement =
                 document.createElement("div");
 
-
             messageElement.className =
                 "message error-message";
-
 
             const sender =
                 document.createElement("strong");
 
-
             sender.textContent =
                 "Error: ";
-
 
             const text =
                 document.createElement("span");
 
-
             text.textContent =
                 message;
-
 
             messageElement.appendChild(
                 sender
             );
 
-
             messageElement.appendChild(
                 text
             );
-
 
             container.appendChild(
                 messageElement
             );
 
-
             chatBox.appendChild(
                 container
             );
-
 
             chatBox.scrollTop =
                 chatBox.scrollHeight;
 
         }
-
 
         function removeWelcomeMessage() {
 
@@ -781,7 +686,6 @@
                 document.querySelector(
                     ".welcome"
                 );
-
 
             if (welcome) {
 
@@ -791,7 +695,6 @@
 
         }
 
-
         function showLoading() {
 
             const loadingContainer =
@@ -799,44 +702,35 @@
                     "div"
                 );
 
-
             loadingContainer.className =
                 "bot-message";
 
-
             loadingContainer.id =
                 "loading";
-
 
             const messageElement =
                 document.createElement(
                     "div"
                 );
 
-
             messageElement.className =
                 "message loading-message";
 
-
             messageElement.textContent =
                 "Chatbot: Thinking...";
-
 
             loadingContainer.appendChild(
                 messageElement
             );
 
-
             chatBox.appendChild(
                 loadingContainer
             );
-
 
             chatBox.scrollTop =
                 chatBox.scrollHeight;
 
         }
-
 
         function removeLoading() {
 
@@ -844,7 +738,6 @@
                 document.getElementById(
                     "loading"
                 );
-
 
             if (loading) {
 
@@ -854,13 +747,40 @@
 
         }
 
+        /*
+         * Voice Output / Text-to-Speech
+         *
+         * Converts the AI's text response into speech
+         * using the browser's built-in Speech Synthesis API.
+         */
+
+        function speakText(text) {
+
+            if ("speechSynthesis" in window) {
+
+                // Stop any previous speech
+                window.speechSynthesis.cancel();
+
+                const speech =
+                    new SpeechSynthesisUtterance(text);
+
+                speech.lang = "en-US";
+                speech.rate = 1;
+                speech.pitch = 1;
+                speech.volume = 1;
+
+                window.speechSynthesis.speak(
+                    speech
+                );
+
+            }
+
+        }
 
         async function sendMessage() {
 
-
             const message =
                 input.value.trim();
-
 
             // Input validation
             if (!message) {
@@ -874,9 +794,7 @@
 
             }
 
-
             removeWelcomeMessage();
-
 
             // Add user message to history
             conversationHistory.push({
@@ -887,7 +805,6 @@
 
             });
 
-
             // Display user message
             addMessage(
                 "You",
@@ -895,9 +812,7 @@
                 "user-message"
             );
 
-
             input.value = "";
-
 
             // Disable controls
             sendButton.disabled = true;
@@ -906,16 +821,12 @@
 
             input.disabled = true;
 
-
             status.textContent =
                 "AI is thinking...";
 
-
             showLoading();
 
-
             try {
-
 
                 const response =
                     await fetch(
@@ -941,9 +852,7 @@
                         }
                     );
 
-
                 let data;
-
 
                 try {
 
@@ -960,9 +869,7 @@
 
                 }
 
-
                 removeLoading();
-
 
                 // Handle API errors
                 if (!response.ok) {
@@ -970,20 +877,16 @@
                     // Remove failed user message
                     conversationHistory.pop();
 
-
                     addErrorMessage(
                         data.error ||
                         "The server returned an error."
                     );
 
-
                     return;
 
                 }
 
-
                 if (data.response) {
-
 
                     // Add AI response to history
                     conversationHistory.push({
@@ -994,7 +897,6 @@
 
                     });
 
-
                     // Display AI response
                     addMessage(
                         "Chatbot",
@@ -1002,6 +904,8 @@
                         "bot-message"
                     );
 
+                    // Speak the AI response aloud
+                    speakText(data.response);
 
                 }
 
@@ -1009,58 +913,45 @@
 
                     conversationHistory.pop();
 
-
                     addErrorMessage(
                         "No response received from the AI."
                     );
 
                 }
 
-
             }
 
             catch (error) {
 
-
                 removeLoading();
-
 
                 console.error(
                     "Chatbot error:",
                     error
                 );
 
-
                 // Remove failed message
                 conversationHistory.pop();
-
 
                 addErrorMessage(
                     "Unable to connect to the AI service. Please try again."
                 );
 
-
             }
 
-
             finally {
-
 
                 sendButton.disabled =
                     false;
 
-
                 voiceButton.disabled =
                     false;
-
 
                 input.disabled =
                     false;
 
-
                 status.textContent =
                     "Press Enter to send";
-
 
                 input.focus();
 
@@ -1068,12 +959,15 @@
 
         }
 
-
         // Clear conversation
         function clearChat() {
 
-            conversationHistory = [];
+            // Stop current voice output
+            if ("speechSynthesis" in window) {
+                window.speechSynthesis.cancel();
+            }
 
+            conversationHistory = [];
 
             chatBox.innerHTML = `
 
@@ -1091,43 +985,33 @@
 
             `;
 
-
             status.textContent =
                 "Chat cleared.";
-
 
             input.focus();
 
         }
-
 
         // Voice input
         const SpeechRecognition =
             window.SpeechRecognition ||
             window.webkitSpeechRecognition;
 
-
         let recognition = null;
 
-
         if (SpeechRecognition) {
-
 
             recognition =
                 new SpeechRecognition();
 
-
             recognition.continuous =
                 false;
-
 
             recognition.interimResults =
                 false;
 
-
             recognition.lang =
                 "en-US";
-
 
             recognition.onstart =
                 function() {
@@ -1136,31 +1020,25 @@
                         "listening"
                     );
 
-
                     status.textContent =
                         "Listening... Speak now.";
 
                 };
 
-
             recognition.onresult =
                 function(event) {
-
 
                     const transcript =
                         event.results[0][0]
                             .transcript;
 
-
                     input.value =
                         transcript;
-
 
                     status.textContent =
                         "Voice input received.";
 
                 };
-
 
             recognition.onerror =
                 function(event) {
@@ -1170,12 +1048,10 @@
                         event.error
                     );
 
-
                     status.textContent =
                         "Voice input failed. Please try again.";
 
                 };
-
 
             recognition.onend =
                 function() {
@@ -1190,28 +1066,23 @@
 
         else {
 
-
             voiceButton.disabled =
                 true;
-
 
             status.textContent =
                 "Voice input is not supported by this browser.";
 
         }
 
-
         voiceButton.addEventListener(
             "click",
             function() {
-
 
                 if (!recognition) {
 
                     return;
 
                 }
-
 
                 try {
 
@@ -1231,18 +1102,15 @@
             }
         );
 
-
         sendButton.addEventListener(
             "click",
             sendMessage
         );
 
-
         clearButton.addEventListener(
             "click",
             clearChat
         );
-
 
         input.addEventListener(
             "keypress",
@@ -1258,7 +1126,6 @@
         );
 
     </script>
-
 
 </body>
 
